@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Substitution Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <h2>Substitution</h2>
+            <a href="index.html">
+                <i class="fas fa-home logo"></i>
+            </a>
+        </div>
+
+        <button onclick="showSlide('definition')" class="active">Definition</button>
+        <button onclick="showSlide('howToWork')">How It Works</button>
+        <button onclick="showSlide('cryptage')">Encryption</button>
+        <button onclick="showSlide('decryptage')">Decryption</button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Definition Slide -->
+            <div id="definition" class="slide active-slide">
+                <div class="centered-content">
+                    <h3>Definition</h3>
+                    <p>The Simple Random Substitution Cipher replaces each letter in the plaintext with a unique letter
+                        from a randomly shuffled alphabet. This method creates a fixed but secret mapping between
+                        plaintext and ciphertext characters.</p>
+                </div>
+            </div>
+
+            <!-- How to Work Slide -->
+            <div id="howToWork" class="slide">
+                <div class="centered-content">
+                    <h3>How the Substitution Cipher Works</h3>
+                    <h4>Encryption Process</h4>
+                    <ol>
+                        <li>Generate a random substitution key (e.g., shuffled alphabet).</li>
+                        <li>Replace each letter of the plaintext with the corresponding letter in the substitution key.</li>
+                        <li>Leave non-letter characters unchanged (optional).</li>
+                    </ol>
+
+                    <h4>Decryption Process</h4>
+                    <ol>
+                        <li>Use the same key used in encryption.</li>
+                        <li>Map each letter of the ciphertext back to the original alphabet.</li>
+                    </ol>
+
+                    <h4>Example</h4>
+                    <p><b>Plain Alphabet:</b> ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                    <p><b>Key Alphabet:</b> QWERTYUIOPLKJHGFDSAZXCVBNM</p>
+                    <p><b>Plaintext:</b> HELLO → <b>Ciphertext:</b> ITSSG</p>
+                </div>
+            </div>
+
+            <!-- Cryptage Slide -->
+            <div id="cryptage" class="slide">
+                <h3>Substitution Cipher Encryption (C)</h3>
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void encryptSubstitution(const char *plaintext, char *ciphertext, const char *key) {
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        char c = toupper(plaintext[i]);
+        if (c >= 'A' && c <= 'Z') {
+            ciphertext[i] = key[c - 'A'];
+        } else {
+            ciphertext[i] = plaintext[i];
+        }
+    }
+    ciphertext[strlen(plaintext)] = '\0';
+}
+
+int main() {
+    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; // Example key
+    char plaintext[1000], ciphertext[1000];
+
+    printf("Enter the plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = '\0';
+
+    encryptSubstitution(plaintext, ciphertext, key);
+    printf("Encrypted text: %s\n", ciphertext);
+
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="message">Enter Message:</label>
+                <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runCipher()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <!-- Decryptage Slide -->
+            <div id="decryptage" class="slide">
+                <h3>Substitution Cipher Decryption (C)</h3>
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void decryptSubstitution(const char *ciphertext, char *plaintext, const char *key) {
+    char reverseKey[26];
+    for (int i = 0; i < 26; i++) {
+        reverseKey[key[i] - 'A'] = 'A' + i;
+    }
+
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        char c = toupper(ciphertext[i]);
+        if (c >= 'A' && c <= 'Z') {
+            plaintext[i] = reverseKey[c - 'A'];
+        } else {
+            plaintext[i] = ciphertext[i];
+        }
+    }
+    plaintext[strlen(ciphertext)] = '\0';
+}
+
+int main() {
+    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; // Example key
+    char ciphertext[1000], plaintext[1000];
+
+    printf("Enter the ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = '\0';
+
+    decryptSubstitution(ciphertext, plaintext, key);
+    printf("Decrypted text: %s\n", plaintext);
+
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="messageDecryption">Enter Message:</label>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runDecryption()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="outputDecryption"></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+            updateSidebarButtons(slideId);
+        }
+
+        function updateSidebarButtons(activeSlide) {
+            const buttons = document.querySelectorAll('.sidebar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        window.onload = function () {
+            const currentPage = document.title;
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage !== currentPage) {
+                sessionStorage.removeItem('selectedSlide');
+                localStorage.setItem('lastPage', currentPage);
+            }
+            const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
+            showSlide(savedSlide, true);
+        };
+
+        window.addEventListener('beforeunload', function () {
+            const navigationType = performance.getEntriesByType("navigation")[0].type;
+            if (navigationType !== "navigate" && navigationType !== "reload") {
+                sessionStorage.removeItem('selectedSlide');
+            }
+        });
+
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+
+            updateSidebarButtons(slideId);
+        }
+
+
+        function runCipher() {
+            const message = document.getElementById("message").value.trim();
+            if (!message) {
+                document.getElementById("output").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "substitution",
+                    key: "zyxwvutsrqponmlkjihgfedcba",
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("output").textContent = "Error: " + error.message;
+                });
+        }
+
+        function runDecryption() {
+            const message = document.getElementById("messageDecryption").value.trim();
+            if (!message) {
+                document.getElementById("outputDecryption").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/runDecryption", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "substitution",
+                    key: "zyxwvutsrqponmlkjihgfedcba", //i changed this it was like : QWERTYUIOPLKJHGFDSAZXCVBNM 
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
+                });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            const isActive = sidebar.classList.contains('active');
+
+            if (isActive) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Close sidebar on body click or button click inside it (mobile only)
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const button = document.querySelector('.mobile-menu-btn');
+
+            const clickedInsideSidebar = sidebar.contains(event.target);
+            const clickedButton = button.contains(event.target);
+
+            if (window.innerWidth <= 768 && !clickedInsideSidebar && !clickedButton) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Also close sidebar when any sidebar button is clicked
+        const sidebarButtons = document.querySelectorAll('.sidebar button');
+        sidebarButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

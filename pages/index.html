@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption Algorithms</title>
+    <link rel="stylesheet" href="css/ind.css">
+</head>
+<body>
+
+    <!-- Navbar with "AlgoCipher" and search bar -->
+    <div class="navbar">
+        <h1>AlgoCipher</h1>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search Algorithm" onkeydown="checkEnter(event)">
+            <button onclick="searchAlgorithm()">Search</button>
+        </div>
+    </div>
+
+    <h1>Encryption Algorithms</h1>
+
+    <label for="algorithm">Choose an algorithm:</label>
+    <select id="algorithm" onchange="goToAlgorithmPage()">
+        <option value="">-- Select Algorithm --</option>
+        <option value="caesar">Caesar Cipher</option>
+        <option value="alberti">Alberti Cipher</option>
+        <option value="vigenere">Vigenère Cipher</option>
+        <option value="autokey">AutoKey Cipher</option>
+        <option value="beaufort">Beaufort Cipher</option>
+        <option value="polybe">Polybe Cipher</option>
+        <option value="substitution">Substitution Cipher</option>
+        <option value="atbash">Atbash Cipher</option>
+        <option value="albam">Albam Cipher</option>
+        <option value="atbah">Atbah Cipher</option>
+        <option value="trithemus">Trithemus Cipher</option>
+        <option value="porta">Porta Cipher</option>
+        <option value="vernam">Vernam Cipher</option>
+        <!-- Add more algorithms here -->
+    </select>
+
+    <script>
+        // Function to redirect to the selected algorithm page
+        function goToAlgorithmPage() {
+            const algorithm = document.getElementById('algorithm').value;
+            if (algorithm === "alberti") {
+                window.location.href = "/alberti.html";  
+            } else if (algorithm === "caesar") {
+                window.location.href = "/caesar.html";  
+            }else if (algorithm === "vigenere") {
+                window.location.href = "/vigenere.html";  
+            }else if (algorithm === "autokey") {
+                window.location.href = "/autokey.html";  
+            }else if (algorithm === "beaufort") {
+                window.location.href = "/beaufort.html";  
+            }else if (algorithm === "polybe") {
+                window.location.href = "/polybe.html";  
+            }else if (algorithm === "substitution") {
+                window.location.href = "/substitution.html";  
+            }else if (algorithm === "atbash") {
+                window.location.href = "/atbash.html";  
+            }else if (algorithm === "albam") {
+                window.location.href = "/albam.html";  
+            }else if (algorithm === "atbah") {
+                window.location.href = "/atbah.html";  
+            }else if (algorithm === "trithemus") {
+                window.location.href = "/trithemus.html";  
+            }else if (algorithm === "porta") {
+                window.location.href = "/porta.html";  
+            }else if (algorithm === "vernam") {
+                window.location.href = "/vernam.html";  
+            }
+
+        }
+
+        // Function to search and redirect based on the input value
+        function searchAlgorithm() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const algorithms = {
+                caesar: '/caesar.html',
+                alberti: '/alberti.html',
+                vigenere: '/vigenere.html',
+                autokey: '/autokey.html',
+                beaufort: '/beaufort.html',
+                polybe: '/polybe.html',
+                substitution: '/substitution.html',
+                atbash: '/atbash.html',
+                albam: '/albam.html',
+                atbah: '/atbah.html',
+                trithemus: '/trithemus.html',
+                porta: '/porta.html',
+                vernam: '/vernam.html',
+                // Add more algorithm mappings here
+            };
+
+            // Loop through algorithms and check if any algorithm name starts with the input value
+            for (let key in algorithms) {
+                if (key.startsWith(searchInput)) {
+                    window.location.href = algorithms[key];  // Redirect to the matched algorithm page
+                    return;
+                }
+            }
+
+            alert("Algorithm not found!");  // Alert if no match
+        }
+
+        // Function to check if the "Enter" key was pressed
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                searchAlgorithm();  // Trigger the search function when "Enter" is pressed
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porta Cipher Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <h2>Porta</h2>
+            <a href="index.html">
+                <i class="fas fa-home logo"></i>
+            </a>
+        </div>
+
+        <button onclick="showSlide('definition')" class="active">Definition</button>
+        <button onclick="showSlide('howToWork')">How It Works</button>
+        <button onclick="showSlide('cryptage')">Encryption</button>
+        <button onclick="showSlide('decryptage')">Decryption</button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Definition Slide -->
+            <div id="definition" class="slide active-slide">
+                <div class="centered-content">
+                    <h3>Definition</h3>
+                    <p>The Porta cipher is a polyalphabetic substitution cipher invented by Giovanni Battista della Porta in the 16th century. It uses digraph substitution based on paired alphabets and a keyword, making it stronger than monoalphabetic ciphers.</p>
+                </div>
+            </div>
+
+            <!-- How to Work Slide -->
+            <div id="howToWork" class="slide">
+                <div class="centered-content">
+                    <h3>How the Porta Cipher Works</h3>
+                    <p>The Porta cipher uses a keyword and a set of fixed alphabets for encryption and decryption. Each letter of the key determines a specific alphabet pair for substitution.</p>
+
+                    <h4>Encryption Process</h4>
+                    <ol>
+                        <li>Repeat the keyword to match the length of the plaintext.</li>
+                        <li>For each letter in the plaintext, find the paired alphabet using the corresponding key letter.</li>
+                        <li>Substitute the plaintext letter using the selected pair alphabet.</li>
+                    </ol>
+
+                    <h4>Decryption Process</h4>
+                    <ol>
+                        <li>Repeat the keyword to match the length of the ciphertext.</li>
+                        <li>Use the corresponding pair alphabet to reverse the substitution.</li>
+                    </ol>
+
+                    <h4>Example</h4>
+                    <p><b>Keyword:</b> KEY, <b>Plaintext:</b> MEET → <b>Ciphertext:</b> ???</p>
+                </div>
+            </div>
+
+            <!-- Cryptage Slide -->
+            <div id="cryptage" class="slide">
+                <h3>Porta Cipher Encryption</h3>
+                <input type="hidden" id="algorithmName" value="porta">
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char portaTable[13][2][13] = {
+    {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"},
+    {"ABCDEFGHIJKLM", "OPQRSTUVWXYZN"},
+    {"ABCDEFGHIJKLM", "PQRSTUVWXYZNM"},
+    {"ABCDEFGHIJKLM", "QRSTUVWXYZNML"},
+    {"ABCDEFGHIJKLM", "RSTUVWXYZNMLK"},
+    {"ABCDEFGHIJKLM", "STUVWXYZNMLKJ"},
+    {"ABCDEFGHIJKLM", "TUVWXYZNMLKJI"},
+    {"ABCDEFGHIJKLM", "UVWXYZNMLKJIH"},
+    {"ABCDEFGHIJKLM", "VWXYZNMLKJIHG"},
+    {"ABCDEFGHIJKLM", "WXYZNMLKJIHGF"},
+    {"ABCDEFGHIJKLM", "XYZNMLKJIHGFE"},
+    {"ABCDEFGHIJKLM", "YZNMLKJIHGFED"},
+    {"ABCDEFGHIJKLM", "ZNMLKJIHGFEDC"}
+};
+
+int getIndex(char c) {
+    return (toupper(c) - 'A') / 2;
+}
+
+void encryptPorta(const char *plaintext, const char *key, char *ciphertext) {
+    int i;
+    for (i = 0; plaintext[i]; i++) {
+        if (isalpha(plaintext[i])) {
+            int index = getIndex(key[i % strlen(key)]);
+            char c = toupper(plaintext[i]);
+            int pos = strchr(portaTable[index][0], c) - portaTable[index][0];
+            ciphertext[i] = portaTable[index][1][pos];
+        } else {
+            ciphertext[i] = plaintext[i];
+        }
+    }
+    ciphertext[i] = '\0';
+}
+                </textarea>
+                <br>
+                <label for="key">Enter Key:</label>
+                <input type="text" id="key" placeholder="Enter key..."><br><br>
+                <label for="message">Enter Message:</label>
+                <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runCipher()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <!-- Decryptage Slide -->
+            <div id="decryptage" class="slide">
+                <h3>Porta Cipher Decryption</h3>
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char portaTable[13][2][13] = {
+    {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"},
+    {"ABCDEFGHIJKLM", "OPQRSTUVWXYZN"},
+    {"ABCDEFGHIJKLM", "PQRSTUVWXYZNM"},
+    {"ABCDEFGHIJKLM", "QRSTUVWXYZNML"},
+    {"ABCDEFGHIJKLM", "RSTUVWXYZNMLK"},
+    {"ABCDEFGHIJKLM", "STUVWXYZNMLKJ"},
+    {"ABCDEFGHIJKLM", "TUVWXYZNMLKJI"},
+    {"ABCDEFGHIJKLM", "UVWXYZNMLKJIH"},
+    {"ABCDEFGHIJKLM", "VWXYZNMLKJIHG"},
+    {"ABCDEFGHIJKLM", "WXYZNMLKJIHGF"},
+    {"ABCDEFGHIJKLM", "XYZNMLKJIHGFE"},
+    {"ABCDEFGHIJKLM", "YZNMLKJIHGFED"},
+    {"ABCDEFGHIJKLM", "ZNMLKJIHGFEDC"}
+};
+
+int getIndex(char c) {
+    return (toupper(c) - 'A') / 2;
+}
+
+void decryptPorta(const char *ciphertext, const char *key, char *plaintext) {
+    int i;
+    for (i = 0; ciphertext[i]; i++) {
+        if (isalpha(ciphertext[i])) {
+            int index = getIndex(key[i % strlen(key)]);
+            char c = toupper(ciphertext[i]);
+            int pos = strchr(portaTable[index][1], c) - portaTable[index][1];
+            plaintext[i] = portaTable[index][0][pos];
+        } else {
+            plaintext[i] = ciphertext[i];
+        }
+    }
+    plaintext[i] = '\0';
+}
+                </textarea>
+                <br>
+                <label for="keyDecryption">Enter Key:</label>
+                <input type="text" id="keyDecryption" placeholder="Enter key..."><br><br>
+                <label for="messageDecryption">Enter Message:</label>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runDecryption()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="outputDecryption"></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+            updateSidebarButtons(slideId);
+        }
+
+        function updateSidebarButtons(activeSlide) {
+            const buttons = document.querySelectorAll('.sidebar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        window.onload = function () {
+            const currentPage = document.title;
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage !== currentPage) {
+                sessionStorage.removeItem('selectedSlide');
+                localStorage.setItem('lastPage', currentPage);
+            }
+            const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
+            showSlide(savedSlide, true);
+        };
+
+        window.addEventListener('beforeunload', function () {
+            const navigationType = performance.getEntriesByType("navigation")[0].type;
+            if (navigationType !== "navigate" && navigationType !== "reload") {
+                sessionStorage.removeItem('selectedSlide');
+            }
+        });
+
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+
+            updateSidebarButtons(slideId);
+        }
+
+
+        function runCipher() {
+            const message = document.getElementById("message").value.trim();
+            const key = document.getElementById("key").value.trim();
+            if (!message || !key) {
+                document.getElementById("output").textContent = "Please enter a message and key";
+                return;
+            }
+
+            fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "porta",
+                    key: key,
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("output").textContent = "Error: " + error.message;
+                });
+        }
+
+        function runDecryption() {
+            const message = document.getElementById("messageDecryption").value.trim();
+            const key = document.getElementById("keyDecryption").value.trim();
+            if (!message || !key) {
+                document.getElementById("outputDecryption").textContent = "Please enter a message and key";
+                return;
+            }
+
+            fetch("/runDecryption", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "porta",
+                    key: key,
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
+                });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            const isActive = sidebar.classList.contains('active');
+
+            if (isActive) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Close sidebar on body click or button click inside it (mobile only)
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const button = document.querySelector('.mobile-menu-btn');
+
+            const clickedInsideSidebar = sidebar.contains(event.target);
+            const clickedButton = button.contains(event.target);
+
+            if (window.innerWidth <= 768 && !clickedInsideSidebar && !clickedButton) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Also close sidebar when any sidebar button is clicked
+        const sidebarButtons = document.querySelectorAll('.sidebar button');
+        sidebarButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

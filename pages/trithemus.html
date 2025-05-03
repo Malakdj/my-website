@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trithemus Cipher Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <h2>Trithemus</h2>
+            <a href="index.html">
+                <i class="fas fa-home logo"></i>
+            </a>
+        </div>
+
+        <button onclick="showSlide('definition')" class="active">Definition</button>
+        <button onclick="showSlide('howToWork')">How It Works</button>
+        <button onclick="showSlide('cryptage')">Encryption</button>
+        <button onclick="showSlide('decryptage')">Decryption</button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Definition Slide -->
+            <div id="definition" class="slide active-slide">
+                <div class="centered-content">
+                    <h3>Definition</h3>
+                    <p>The Trithemus Cipher is a progressive Caesar cipher introduced by Johannes Trithemius. It is a polyalphabetic cipher where each letter in the plaintext is shifted by an increasing value, starting from 0. Unlike the Vigenère cipher, it does not use a keyword.</p>
+                </div>
+            </div>
+
+            <!-- How to Work Slide -->
+            <div id="howToWork" class="slide">
+                <div class="centered-content">
+                    <h3>How the Trithemus Cipher Works</h3>
+                    <p>The cipher increases the shift with each letter in the message, starting with A=0, B=1, C=2, etc.</p>
+
+                    <h4>Encryption Process</h4>
+                    <ol>
+                        <li>Start with a shift of 0 for the first character.</li>
+                        <li>Increase the shift by 1 for each subsequent character.</li>
+                        <li>Shift each letter forward in the alphabet by the current shift value (modulo 26).</li>
+                    </ol>
+
+                    <h4>Decryption Process</h4>
+                    <ol>
+                        <li>Start with a shift of 0 for the first character.</li>
+                        <li>Decrease each letter by the corresponding shift (modulo 26).</li>
+                        <li>Continue increasing the shift by 1 for each next character.</li>
+                    </ol>
+
+                    <h4>Example</h4>
+                    <p><b>Plaintext:</b> ABC → <b>Ciphertext:</b> A (shift 0), C (shift 1), E (shift 2)</p>
+                    <p>Result: <b>ACE</b></p>
+                </div>
+            </div>
+
+            <!-- Cryptage Slide -->
+            <div id="cryptage" class="slide">
+                <h3>Trithemus Cipher Encryption</h3>
+                <input type="hidden" id="algorithmName" value="trithemus">
+                <textarea readonly rows="10">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void encryptTrithemus(const char *plaintext, char *ciphertext) {
+    int i, shift;
+    for (i = 0; plaintext[i] != '\0'; i++) {
+        char c = toupper(plaintext[i]);
+        if (isalpha(c)) {
+            shift = i % 26;
+            ciphertext[i] = ((c - 'A' + shift) % 26) + 'A';
+        } else {
+            ciphertext[i] = c;
+        }
+    }
+    ciphertext[i] = '\0';
+}
+
+int main() {
+    char plaintext[1000];
+    char ciphertext[1000];
+
+    printf("Enter the plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = 0;
+
+    encryptTrithemus(plaintext, ciphertext);
+    printf("Encrypted Text: %s\n", ciphertext);
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="message">Enter Message:</label>
+                <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runCipher()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <!-- Decryptage Slide -->
+            <div id="decryptage" class="slide">
+                <h3>Trithemus Cipher Decryption</h3>
+                <textarea readonly rows="10">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void decryptTrithemus(const char *ciphertext, char *plaintext) {
+    int i, shift;
+    for (i = 0; ciphertext[i] != '\0'; i++) {
+        char c = toupper(ciphertext[i]);
+        if (isalpha(c)) {
+            shift = i % 26;
+            plaintext[i] = ((c - 'A' - shift + 26) % 26) + 'A';
+        } else {
+            plaintext[i] = c;
+        }
+    }
+    plaintext[i] = '\0';
+}
+
+int main() {
+    char ciphertext[1000];
+    char plaintext[1000];
+
+    printf("Enter the ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = 0;
+
+    decryptTrithemus(ciphertext, plaintext);
+    printf("Decrypted Text: %s\n", plaintext);
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="messageDecryption">Enter Message:</label>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runDecryption()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="outputDecryption"></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+            updateSidebarButtons(slideId);
+        }
+
+        function updateSidebarButtons(activeSlide) {
+            const buttons = document.querySelectorAll('.sidebar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        window.onload = function () {
+            const currentPage = document.title;
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage !== currentPage) {
+                sessionStorage.removeItem('selectedSlide');
+                localStorage.setItem('lastPage', currentPage);
+            }
+            const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
+            showSlide(savedSlide, true);
+        };
+
+        window.addEventListener('beforeunload', function () {
+            const navigationType = performance.getEntriesByType("navigation")[0].type;
+            if (navigationType !== "navigate" && navigationType !== "reload") {
+                sessionStorage.removeItem('selectedSlide');
+            }
+        });
+
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+
+            updateSidebarButtons(slideId);
+        }
+
+        function runCipher() {
+            const message = document.getElementById("message").value.trim();
+            if (!message) {
+                document.getElementById("output").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "trithemus",
+                    key: "",
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("output").textContent = "Error: " + error.message;
+                });
+        }
+
+        function runDecryption() {
+            const message = document.getElementById("messageDecryption").value.trim();
+            if (!message) {
+                document.getElementById("outputDecryption").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/runDecryption", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "trithemus",
+                    key: "",
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
+                });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            const isActive = sidebar.classList.contains('active');
+
+            if (isActive) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Close sidebar on body click or button click inside it (mobile only)
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const button = document.querySelector('.mobile-menu-btn');
+
+            const clickedInsideSidebar = sidebar.contains(event.target);
+            const clickedButton = button.contains(event.target);
+
+            if (window.innerWidth <= 768 && !clickedInsideSidebar && !clickedButton) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Also close sidebar when any sidebar button is clicked
+        const sidebarButtons = document.querySelectorAll('.sidebar button');
+        sidebarButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

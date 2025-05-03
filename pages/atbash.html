@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atbash Cipher Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <h2>Atbash</h2>
+            <a href="index.html">
+                <i class="fas fa-home logo"></i>
+            </a>
+        </div>
+
+        <button onclick="showSlide('definition')" class="active">Definition</button>
+        <button onclick="showSlide('howToWork')">How It Works</button>
+        <button onclick="showSlide('cryptage')">Encryption</button>
+        <button onclick="showSlide('decryptage')">Decryption</button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Definition Slide -->
+            <div id="definition" class="slide active-slide">
+                <div class="centered-content">
+                    <h3>Definition</h3>
+                    <p>The Atbash cipher is a classic substitution cipher used since ancient times. It replaces each letter of the alphabet with its reverse counterpart. For example, A becomes Z, B becomes Y, C becomes X, and so on.</p>
+                </div>
+            </div>
+
+            <!-- How to Work Slide -->
+            <div id="howToWork" class="slide">
+                <div class="centered-content">
+                    <h3>How the Atbash Cipher Works</h3>
+                    <p>The Atbash cipher does not require a key. It simply mirrors the alphabet.</p>
+
+                    <h4>Encryption and Decryption Process</h4>
+                    <ol>
+                        <li>Convert each letter to its position in the alphabet (A = 0, B = 1, ..., Z = 25).</li>
+                        <li>Subtract this position from 25 to get the mirrored letter’s position.</li>
+                        <li>Replace the original letter with the mirrored one.</li>
+                        <li>Same process is used for decryption since Atbash is symmetrical.</li>
+                    </ol>
+
+                    <h4>Example</h4>
+                    <p><b>Plaintext:</b> HELLO → <b>Ciphertext:</b> SVOOL</p>
+
+                    <h4>Notes</h4>
+                    <ul>
+                        <li>It is a very simple cipher and provides minimal security.</li>
+                        <li>Often used for educational or puzzle purposes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cryptage Slide -->
+            <div id="cryptage" class="slide">
+                <h3>Atbash Cipher Encryption</h3>
+                <input type="hidden" id="algorithmName" value="atbash">
+                <textarea readonly rows="10">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void encryptAtbash(const char *plaintext, char *ciphertext) {
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        char c = plaintext[i];
+        if (isalpha(c)) {
+            if (isupper(c))
+                ciphertext[i] = 'Z' - (c - 'A');
+            else
+                ciphertext[i] = 'z' - (c - 'a');
+        } else {
+            ciphertext[i] = c;
+        }
+    }
+    ciphertext[strlen(plaintext)] = '\0';
+}
+
+int main() {
+    char plaintext[1000];
+    char ciphertext[1000];
+
+    printf("Enter the plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = 0;
+
+    encryptAtbash(plaintext, ciphertext);
+
+    printf("Encrypted Text: %s\n", ciphertext);
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="message">Enter Message:</label>
+                <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runCipher()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <!-- Decryptage Slide -->
+            <div id="decryptage" class="slide">
+                <h3>Atbash Cipher Decryption</h3>
+                <textarea readonly rows="10">
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void decryptAtbash(const char *ciphertext, char *plaintext) {
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        char c = ciphertext[i];
+        if (isalpha(c)) {
+            if (isupper(c))
+                plaintext[i] = 'Z' - (c - 'A');
+            else
+                plaintext[i] = 'z' - (c - 'a');
+        } else {
+            plaintext[i] = c;
+        }
+    }
+    plaintext[strlen(ciphertext)] = '\0';
+}
+
+int main() {
+    char ciphertext[1000];
+    char plaintext[1000];
+
+    printf("Enter the ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = 0;
+
+    decryptAtbash(ciphertext, plaintext);
+
+    printf("Decrypted Text: %s\n", plaintext);
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="messageDecryption">Enter Message:</label>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runDecryption()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="outputDecryption"></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+            updateSidebarButtons(slideId);
+        }
+
+        function updateSidebarButtons(activeSlide) {
+            const buttons = document.querySelectorAll('.sidebar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        window.onload = function () {
+            const currentPage = document.title;
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage !== currentPage) {
+                sessionStorage.removeItem('selectedSlide');
+                localStorage.setItem('lastPage', currentPage);
+            }
+            const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
+            showSlide(savedSlide, true);
+        };
+
+        window.addEventListener('beforeunload', function () {
+            const navigationType = performance.getEntriesByType("navigation")[0].type;
+            if (navigationType !== "navigate" && navigationType !== "reload") {
+                sessionStorage.removeItem('selectedSlide');
+            }
+        });
+
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+
+            updateSidebarButtons(slideId);
+        }
+
+
+        function runCipher() {
+            const message = document.getElementById("message").value.trim();
+            if (!message) {
+                document.getElementById("output").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "atbash",
+                    key: "",
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("output").textContent = "Error: " + error.message;
+                });
+        }
+
+        function runDecryption() {
+            const message = document.getElementById("messageDecryption").value.trim();
+            if (!message) {
+                document.getElementById("outputDecryption").textContent = "Please enter a message";
+                return;
+            }
+
+            fetch("/runDecryption", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "atbash",
+                    key: "",
+                    message: message
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
+                });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            const isActive = sidebar.classList.contains('active');
+
+            if (isActive) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Close sidebar on body click or button click inside it (mobile only)
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const button = document.querySelector('.mobile-menu-btn');
+
+            const clickedInsideSidebar = sidebar.contains(event.target);
+            const clickedButton = button.contains(event.target);
+
+            if (window.innerWidth <= 768 && !clickedInsideSidebar && !clickedButton) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Also close sidebar when any sidebar button is clicked
+        const sidebarButtons = document.querySelectorAll('.sidebar button');
+        sidebarButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>
