@@ -77,41 +77,55 @@
         <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
-
-void encryptVernam(const char *plaintext, const char *key, char *ciphertext) {
-  for (int i = 0; plaintext[i] != '\0'; i++) {
-    ciphertext[i] = plaintext[i] ^ key[i];
+#include <ctype.h>
+            
+void stringEncryption(const char *text, const char *key, char *cipherText) {
+  int length = strlen(key);
+  for (int i = 0; i < length; i++) {
+    int textChar = toupper(text[i]) - 'A';
+    int keyChar = toupper(key[i]) - 'A';
+    int sum = textChar + keyChar;
+            
+    if (sum > 25) {
+      sum -= 26;
+    }
+                    
+    cipherText[i] = sum + 'A';
   }
-  ciphertext[strlen(plaintext)] = '\0';
+  cipherText[length] = '\0';
 }
-
+            
 int main() {
-  char plaintext[1000], key[1000], ciphertext[1000];
-
+  char plaintext[1000];
+  char key[1000];
+  char ciphertext[1000];
+            
   printf("Enter the plaintext: ");
   fgets(plaintext, sizeof(plaintext), stdin);
-  plaintext[strcspn(plaintext, "\n")] = 0;
-
+  plaintext[strcspn(plaintext, "\n")] = '\0';
+            
   printf("Enter the key (same length): ");
   fgets(key, sizeof(key), stdin);
-  key[strcspn(key, "\n")] = 0;
-
+  key[strcspn(key, "\n")] = '\0';
+            
+  // Check lengths match
   if (strlen(plaintext) != strlen(key)) {
-    printf("Error: Key must be the same length as plaintext.\n");
+    printf("Error: Plaintext and key must be same length\n");
     return 1;
   }
-
-  encryptVernam(plaintext, key, ciphertext);
-
-  printf("Encrypted (in hex): ");
-  for (int i = 0; i < strlen(ciphertext); i++) {
-    printf("%02X ", (unsigned char)ciphertext[i]);
+            
+  // Convert both to uppercase
+  for (int i = 0; plaintext[i]; i++) {
+    plaintext[i] = toupper(plaintext[i]);
   }
-  printf("\n");
-
+  for (int i = 0; key[i]; i++) {
+    key[i] = toupper(key[i]);
+  }
+            
+  stringEncryption(plaintext, key, ciphertext);
+  printf("Encrypted Text: %s\n", ciphertext);
   return 0;
-}
-                    </textarea>
+}                    </textarea>
         <br>
         <label for="message">Enter Message:</label>
         <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
@@ -128,36 +142,55 @@ int main() {
         <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
-
-void decryptVernam(const char *ciphertext, const char *key, char *plaintext) {
-  for (int i = 0; ciphertext[i] != '\0'; i++) {
-    plaintext[i] = ciphertext[i] ^ key[i];
+#include <ctype.h>
+            
+void decryptOTP(char *ciphertext, char *key, char *plaintext) {
+  int textLen = strlen(ciphertext);
+  int keyLen = strlen(key);
+  int i;
+            
+  for (i = 0; i < textLen; i++) {
+    if (isalpha(ciphertext[i])) {
+      // Convert to uppercase and get 0-25 values
+      int cipherChar = toupper(ciphertext[i]) - 'A';
+      int keyChar = toupper(key[i % keyLen]) - 'A';
+                        
+      // Perform OTP decryption (subtraction mod 26)
+      int plainChar = (cipherChar - keyChar + 26) % 26;
+                        
+      // Convert back to uppercase character
+      plaintext[i] = plainChar + 'A';
+    } else {
+      // Leave non-alphabetic characters unchanged
+      plaintext[i] = ciphertext[i];
+    }
   }
-  plaintext[strlen(ciphertext)] = '\0';
+  plaintext[i] = '\0';
 }
-
+            
 int main() {
-  char ciphertext[1000], key[1000], plaintext[1000];
-
-  printf("Enter the ciphertext (as plain text input): ");
+  char ciphertext[1000];
+  char key[1000];
+  char plaintext[1000];
+            
+  printf("Enter the ciphertext: ");
   fgets(ciphertext, sizeof(ciphertext), stdin);
-  ciphertext[strcspn(ciphertext, "\n")] = 0;
-
-  printf("Enter the key (same length): ");
+  ciphertext[strcspn(ciphertext, "\n")] = '\0';
+            
+  printf("Enter the key: ");
   fgets(key, sizeof(key), stdin);
-  key[strcspn(key, "\n")] = 0;
-
-  if (strlen(ciphertext) != strlen(key)) {
-    printf("Error: Key must be the same length as ciphertext.\n");
+  key[strcspn(key, "\n")] = '\0';
+            
+  // Check if key is at least as long as ciphertext
+  if (strlen(key) < strlen(ciphertext)) {
+    printf("Error: Key must be at least as long as ciphertext\n");
     return 1;
   }
-
-  decryptVernam(ciphertext, key, plaintext);
+            
+  decryptOTP(ciphertext, key, plaintext);
   printf("Decrypted Text: %s\n", plaintext);
-
   return 0;
-}
-                                </textarea>
+}                                </textarea>
         <br>
         <label for="messageDecryption">Enter Ciphertext:</label>
         <textarea id="messageDecryption" rows="4" placeholder="Enter your ciphertext..."></textarea>
