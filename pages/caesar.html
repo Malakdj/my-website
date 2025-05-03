@@ -330,70 +330,51 @@ int main() {
 
 
         function runCipher() {
-            const key = document.getElementById("key").value.trim();
             const message = document.getElementById("message").value.trim();
+            const key = document.getElementById("key").value.trim();
 
-            if (!key || !message) {
-                document.getElementById("output").textContent = "Please enter both key and message";
+            if (!message || !key) {
+                document.getElementById("output").textContent = "Please enter both message and key.";
                 return;
             }
 
             if (!/^\d+$/.test(key)) {
-                document.getElementById("output").textContent = "Key must be a number for Caesar cipher";
+                document.getElementById("output").textContent = "Key must be a number for Caesar cipher.";
                 return;
             }
 
-            fetch("http://localhost:3000/run", {
+            fetch("/run", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    algorithm: "caesar",  // Set algorithm explicitly to 'caesar'
-                    key: key,
-                    message: message
-                })
+                body: JSON.stringify({ algorithm: "caesar", key: key, message: message })
             })
                 .then(response => response.text())
-                .then(data => {
-                    document.getElementById("output").textContent = data;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("output").textContent = "Error: " + error.message;
-                });
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => document.getElementById("output").textContent = "Error: " + error.message);
         }
 
         function runDecryption() {
-            const key = document.getElementById("keyDecryption").value.trim();
             const message = document.getElementById("messageDecryption").value.trim();
-            const algorithm = "caesar";  // Fixed algorithm name for Caesar cipher
+            const key = document.getElementById("keyDecryption").value.trim();
 
-            if (!key || !message) {
-                document.getElementById("outputDecryption").textContent = "Please enter both key and message";
+            if (!message || !key) {
+                document.getElementById("outputDecryption").textContent = "Please enter both message and key.";
                 return;
             }
 
             if (!/^\d+$/.test(key)) {
-                document.getElementById("outputDecryption").textContent = "Key must be a number for Caesar cipher";
+                document.getElementById("outputDecryption").textContent = "Key must be a number for Caesar cipher.";
                 return;
             }
 
-            fetch("http://localhost:3000/runDecryption", {
+            fetch("/runDecryption", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    algorithm: algorithm,
-                    key: key,
-                    message: message
-                })
+                body: JSON.stringify({ algorithm: "caesar", key: key, message: message })
             })
                 .then(response => response.text())
-                .then(data => {
-                    document.getElementById("outputDecryption").textContent = data;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
-                });
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => document.getElementById("outputDecryption").textContent = "Error: " + error.message);
         }
 
 
