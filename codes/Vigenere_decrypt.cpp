@@ -11,7 +11,7 @@ void decryptVigenere(char *ciphertext, char *key, char *plaintext) {
         if (isalpha(ciphertext[i])) {
             char base = isupper(ciphertext[i]) ? 'A' : 'a';
             char keyChar = tolower(key[j % keyLen]) - 'a';
-            plaintext[i] = ((tolower(ciphertext[i]) - 'a' - keyChar + 26) % 26) + base;  // Fixed here
+            plaintext[i] = ((tolower(ciphertext[i]) - 'a' - keyChar + 26) % 26) + base;  
             j++;
         } else {
             plaintext[i] = ciphertext[i];
@@ -24,8 +24,6 @@ int main() {
     char ciphertext[1000];
     char key[100];
     char plaintext[1000];
-
-    // Read from input.txt
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening input file\n");

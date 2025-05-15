@@ -8,9 +8,9 @@ void encryptPolybe(char *plaintext, char *ciphertext) {
     for (i = 0; plaintext[i] != '\0'; i++) {
         if (isalpha(plaintext[i])) {
             char c = toupper(plaintext[i]);
-            if (c == 'J') c = 'I'; // Combine I and J
+            if (c == 'J') c = 'I'; 
             int index = c - 'A';
-            if (index > 8) index--; // Skip 'J' in the alphabet
+            if (index > 8) index--; 
             int row = index / 5 + 1;
             int col = index % 5 + 1;
             ciphertext[j++] = row + '0';
@@ -26,17 +26,16 @@ void encryptPolybe(char *plaintext, char *ciphertext) {
 
 int main() {
     char plaintext[1000];
-    char key[100]; // not used for Polybe
+    char key[100]; 
     char ciphertext[2000];
 
-    // Read input from file
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening file.\n");
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Skip the key line
+    fgets(key, sizeof(key), input); 
     fgets(plaintext, sizeof(plaintext), input);
     plaintext[strcspn(plaintext, "\n")] = 0;
 

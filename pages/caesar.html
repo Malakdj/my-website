@@ -14,9 +14,7 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Logo container with house icon and title -->
         <div class="logo-container">
             <h2>Caesar</h2>
             <a href="index.html">
@@ -30,18 +28,13 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button (add near top of body) -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-
-
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -52,12 +45,10 @@
                         The method is named after Roman leader Julius Caesar, who used it in his private correspondence.
                     </p>
 
-                    <!-- Add an image -->
                     <img src="imag/caesar1.png" alt="Caesar Cipher Example" class="definition-image">
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Caesar Cipher Works</h3>
@@ -134,11 +125,9 @@
                 </div>
             </div>
 
-
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Caesar Cipher Encryption</h3>
-                <input type="hidden" id="algorithmName" value="caesar"> <!-- Adjust this for each algorithm -->
+                <input type="hidden" id="algorithmName" value="caesar"> 
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <stdlib.h>
@@ -146,7 +135,6 @@
                         
 #define MAX_LEN 1000
                         
-// Function to encrypt text using Caesar cipher
 void encryptCaesar(char *text, int key) {
     for (int i = 0; text[i] != '\0'; i++) {
         if (isalpha(text[i])) {
@@ -159,25 +147,19 @@ void encryptCaesar(char *text, int key) {
 int main() {
     int key;
     char message[MAX_LEN];
-                        
-    // Get key from user
+
     printf("Enter the shift key: ");
     scanf("%d", &key);
-                        
-    // Consume leftover newline from scanf
+
     getchar();
-                        
-    // Get message from user
+
     printf("Enter the message to encrypt: ");
     fgets(message, MAX_LEN, stdin);
-                        
-    // Remove trailing newline character if present
+
     message[strcspn(message, "\n")] = '\0';
-                        
-    // Encrypt the message
+
     encryptCaesar(message, key);
-                        
-    // Print the encrypted message
+
     printf("Encrypted Message: %s\n", message);
                         
     return 0;
@@ -191,11 +173,9 @@ int main() {
                 <label for="message">Enter Message:</label>
                 <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
                 <button onclick="runCipher()">Run</button>
-                <!-- Output title under the button -->
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Caesar Cipher Decryption</h3>
                 <textarea readonly rows="10">
@@ -222,14 +202,12 @@ int main() {
                         
     printf("Enter the shift key: ");
     scanf("%d", &shift);
-                        
-    // Consume leftover newline character from scanf
+
     getchar();
                         
     printf("Enter the message to decrypt: ");
     fgets(message, sizeof(message), stdin);
-                        
-    // Remove trailing newline character if present
+
     message[strcspn(message, "\n")] = '\0';
                         
     decryptCaesar(message, shift);
@@ -260,28 +238,18 @@ int main() {
     <script>
 
         function showSlide(slideId, fromLoad = false) {
-            // Hide all slides
             const slides = document.querySelectorAll('.slide');
             slides.forEach(slide => slide.classList.remove('active-slide'));
-
-            // Show the selected slide
             document.getElementById(slideId).classList.add('active-slide');
-
-            // Save the selected slide ONLY if it's not from page load
             if (!fromLoad) {
                 sessionStorage.setItem('selectedSlide', slideId);
             }
-
-            // Update sidebar button colors
             updateSidebarButtons(slideId);
         }
 
         function updateSidebarButtons(activeSlide) {
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.sidebar button');
             buttons.forEach(button => button.classList.remove('active'));
-
-            // Add active class to the clicked button
             const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
@@ -293,22 +261,19 @@ int main() {
             const lastPage = localStorage.getItem('lastPage');
 
             if (lastPage !== currentPage) {
-                // User came from a different page → reset to first slide
                 sessionStorage.removeItem('selectedSlide');
                 localStorage.setItem('lastPage', currentPage);
             }
 
             const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
-            showSlide(savedSlide, true); // Pass true to indicate this is from page load
+            showSlide(savedSlide, true); 
         };
 
         window.addEventListener('beforeunload', function () {
             const navigationType = performance.getEntriesByType("navigation")[0].type;
             if (navigationType === "navigate" || navigationType === "reload") {
-                // Keep the slide state for refreshes
                 return;
             }
-            // Clear for other types of navigation
             sessionStorage.removeItem('selectedSlide');
         });
 
@@ -330,51 +295,70 @@ int main() {
 
 
         function runCipher() {
-            const message = document.getElementById("message").value.trim();
             const key = document.getElementById("key").value.trim();
+            const message = document.getElementById("message").value.trim();
 
-            if (!message || !key) {
-                document.getElementById("output").textContent = "Please enter both message and key.";
+            if (!key || !message) {
+                document.getElementById("output").textContent = "Please enter both key and message";
                 return;
             }
 
             if (!/^\d+$/.test(key)) {
-                document.getElementById("output").textContent = "Key must be a number for Caesar cipher.";
+                document.getElementById("output").textContent = "Key must be a number for Caesar cipher";
                 return;
             }
 
-            fetch("/run", {
+            fetch("http://localhost:3000/run", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ algorithm: "caesar", key: key, message: message })
+                body: JSON.stringify({
+                    algorithm: "caesar",  
+                    key: key,
+                    message: message
+                })
             })
                 .then(response => response.text())
-                .then(data => document.getElementById("output").textContent = data)
-                .catch(error => document.getElementById("output").textContent = "Error: " + error.message);
+                .then(data => {
+                    document.getElementById("output").textContent = data;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("output").textContent = "Error: " + error.message;
+                });
         }
 
         function runDecryption() {
-            const message = document.getElementById("messageDecryption").value.trim();
             const key = document.getElementById("keyDecryption").value.trim();
+            const message = document.getElementById("messageDecryption").value.trim();
+            const algorithm = "caesar";  
 
-            if (!message || !key) {
-                document.getElementById("outputDecryption").textContent = "Please enter both message and key.";
+            if (!key || !message) {
+                document.getElementById("outputDecryption").textContent = "Please enter both key and message";
                 return;
             }
 
             if (!/^\d+$/.test(key)) {
-                document.getElementById("outputDecryption").textContent = "Key must be a number for Caesar cipher.";
+                document.getElementById("outputDecryption").textContent = "Key must be a number for Caesar cipher";
                 return;
             }
 
-            fetch("/runDecryption", {
+            fetch("http://localhost:3000/runDecryption", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ algorithm: "caesar", key: key, message: message })
+                body: JSON.stringify({
+                    algorithm: algorithm,
+                    key: key,
+                    message: message
+                })
             })
                 .then(response => response.text())
-                .then(data => document.getElementById("outputDecryption").textContent = data)
-                .catch(error => document.getElementById("outputDecryption").textContent = "Error: " + error.message);
+                .then(data => {
+                    document.getElementById("outputDecryption").textContent = data;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("outputDecryption").textContent = "Error: " + error.message;
+                });
         }
 
 
@@ -392,8 +376,6 @@ int main() {
                 overlay.classList.add('active');
             }
         }
-
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -408,7 +390,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

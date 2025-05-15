@@ -22,17 +22,16 @@ void encryptTrithemus(char *plaintext, char *ciphertext) {
 
 int main() {
     char plaintext[1000];
-    char key[100]; // not used for Trithémus
+    char key[100]; 
     char ciphertext[1000];
 
-    // Read input from file
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening file.\n");
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Skip key line
+    fgets(key, sizeof(key), input); 
     fgets(plaintext, sizeof(plaintext), input);
     plaintext[strcspn(plaintext, "\n")] = 0;
 

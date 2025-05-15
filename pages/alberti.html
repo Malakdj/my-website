@@ -16,7 +16,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Logo container with house icon and title -->
         <div class="logo-container">
             <h2>Alberti</h2>
             <a href="index.html">
@@ -30,7 +29,6 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button (add near top of body) -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
@@ -38,10 +36,8 @@
 
 
 
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -55,12 +51,9 @@
                         increasing cryptographic strength.
                     </p>
 
-                    <!-- Add an image -->
-                    <!-- <img src="imag/Alberti1.png" alt="Alberti Cipher Example" class="definition-image"> -->
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Alberti Cipher Works</h3>
@@ -147,10 +140,9 @@
             </div>
 
 
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Alberti Cipher Encryption</h3>
-                <input type="hidden" id="algorithmName" value="Alberti"> <!-- Adjust this for each algorithm -->
+                <input type="hidden" id="algorithmName" value="Alberti">
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
@@ -182,27 +174,27 @@ void alberti_encrypt(const char *plaintext, char *ciphertext, char key, int rota
                                     
             rotation_counter++;
             if (rotation_counter % rotate_interval == 0) {
-                shift = (shift + 1) % 26; // Rotate disk
+                shift = (shift + 1) % 26; 
             }
         } else {
-            ciphertext[i] = plaintext[i]; // Non-alphabetic
+            ciphertext[i] = plaintext[i]; 
         }
     }
     ciphertext[strlen(plaintext)] = '\0';
 }
-                        int main() {
-char plaintext[100], ciphertext[100];
-char key;
-int rotate_interval;
+int main() {
+    char plaintext[100], ciphertext[100];
+    char key;
+    int rotate_interval;
                         
-printf("=== Alberti Cipher Encryption ===\n");
-printf("Enter plaintext: ");
-fgets(plaintext, sizeof(plaintext), stdin);
-plaintext[strcspn(plaintext, "\n")] = '\0';
+    printf("=== Alberti Cipher Encryption ===\n");
+    printf("Enter plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = '\0';
                         
-printf("Enter key (A-Z): ");
-scanf(" %c", &key);
-key = toupper(key);
+    printf("Enter key (A-Z): ");
+    scanf(" %c", &key);
+    key = toupper(key);
                         
     printf("Rotation interval: ");
     scanf("%d", &rotate_interval);
@@ -222,11 +214,9 @@ key = toupper(key);
                 <label for="message">Enter Message:</label>
                 <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
                 <button onclick="runCipher()">Run</button>
-                <!-- Output title under the button -->
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Alberti Cipher Decryption</h3>
                 <textarea readonly rows="10">
@@ -260,10 +250,10 @@ void alberti_decrypt(const char *ciphertext, char *plaintext, char key, int rota
                                     
             rotation_counter++;
             if (rotation_counter % rotate_interval == 0) {
-                shift = (shift + 1) % 26; // Rotate disk
+                shift = (shift + 1) % 26; 
             }
         } else {
-            plaintext[i] = ciphertext[i]; // Non-alphabetic
+            plaintext[i] = ciphertext[i]; 
         }
     }
     plaintext[strlen(ciphertext)] = '\0';
@@ -294,7 +284,6 @@ int main() {
                         
                 </textarea>
                 <br>
-                <!-- In the decryption section, change the input IDs to be unique -->
                 <label for="keyDecryption">Enter Key (A-Z):</label>
                 <input type="text" id="keyDecryption" placeholder="A-Z" maxlength="1">
                 <label for="rotateIntervalDecryption">Rotation Interval:</label>
@@ -328,11 +317,9 @@ int main() {
         }
 
         function updateSidebarButtons(activeSlide) {
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.sidebar button');
             buttons.forEach(button => button.classList.remove('active'));
 
-            // Add active class to the clicked button
             const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
@@ -344,22 +331,19 @@ int main() {
             const lastPage = localStorage.getItem('lastPage');
 
             if (lastPage !== currentPage) {
-                // User came from a different page → reset to first slide
                 sessionStorage.removeItem('selectedSlide');
                 localStorage.setItem('lastPage', currentPage);
             }
 
             const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
-            showSlide(savedSlide, true); // Pass true to indicate this is from page load
+            showSlide(savedSlide, true); 
         };
 
         window.addEventListener('beforeunload', function () {
             const navigationType = performance.getEntriesByType("navigation")[0].type;
             if (navigationType === "navigate" || navigationType === "reload") {
-                // Keep the slide state for refreshes
                 return;
             }
-            // Clear for other types of navigation
             sessionStorage.removeItem('selectedSlide');
         });
 
@@ -452,7 +436,6 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -467,7 +450,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

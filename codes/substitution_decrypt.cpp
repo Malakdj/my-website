@@ -34,7 +34,7 @@ int main() {
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Read key (26 letters)
+    fgets(key, sizeof(key), input); 
     fgets(ciphertext, sizeof(ciphertext), input);
     key[strcspn(key, "\n")] = 0;
     ciphertext[strcspn(ciphertext, "\n")] = 0;

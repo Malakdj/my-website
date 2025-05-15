@@ -4,7 +4,6 @@
 
 #define MAX_LEN 1000
 
-// Function to encrypt text using Caesar cipher
 void encryptCaesar(char *text, int key) {
     for (int i = 0; text[i] != '\0'; i++) {
         if (isalpha(text[i])) {
@@ -24,16 +23,14 @@ int main() {
     int key;
     char message[MAX_LEN];
     
-    // Read key and message from input file
+    
     fscanf(inputFile, "%d", &key);
-    fgetc(inputFile); // Consume newline
+    fgetc(inputFile); 
     fgets(message, MAX_LEN, inputFile);
     fclose(inputFile);
-    
-    // Encrypt the message
+
     encryptCaesar(message, key);
-    
-    // Print the encrypted message
+
     printf("Encrypted Message: %s", message);
     
     return 0;

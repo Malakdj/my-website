@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <h2>Atbah</h2>
@@ -27,17 +26,14 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
 
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -45,7 +41,6 @@
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Atbah Cipher Works</h3>
@@ -75,7 +70,6 @@
                 </div>
             </div>
 
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Atbah Cipher Encryption</h3>
                 <input type="hidden" id="algorithmName" value="Atbah">
@@ -91,7 +85,7 @@ void encryptAtbah(const char *plaintext, char *ciphertext) {
         if (isalpha(c)) {
             ciphertext[i] = 'Z' - (c - 'A');
         } else {
-            ciphertext[i] = c; // Keep non-alphabet characters the same
+            ciphertext[i] = c; 
         }
     }
     ciphertext[i] = '\0';
@@ -119,13 +113,12 @@ int main() {
                 <pre id="output"></pre>
             </div>
 
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Atbah Cipher Decryption</h3>
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
-
+#include <ctype.h>
 void decryptAtbah(const char *ciphertext, char *plaintext) {
     int i;
     for (i = 0; ciphertext[i] != '\0'; i++) {
@@ -133,7 +126,7 @@ void decryptAtbah(const char *ciphertext, char *plaintext) {
         if (isalpha(c)) {
             plaintext[i] = 'Z' - (c - 'A');
         } else {
-            plaintext[i] = c; // Keep non-alphabet characters the same
+            plaintext[i] = c; 
         }
     }
     plaintext[i] = '\0';
@@ -273,7 +266,6 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -288,7 +280,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

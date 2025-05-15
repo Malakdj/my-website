@@ -14,7 +14,7 @@ void decryptAutoKey(char *ciphertext, char *key, char *plaintext) {
             char keyChar = tolower(currentKey[j]) - 'a';
             char p = ((tolower(ciphertext[i]) - 'a' - keyChar + 26) % 26) + base;
             plaintext[i] = p;
-            currentKey[j + strlen(key)] = p;  // Append recovered plaintext
+            currentKey[j + strlen(key)] = p;  
             j++;
         } else {
             plaintext[i] = ciphertext[i];

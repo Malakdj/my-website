@@ -10,8 +10,8 @@ void encryptBeaufort(char *plaintext, char *key, char *ciphertext) {
     for (i = 0; i < textLen; i++) {
         if (isalpha(plaintext[i])) {
             char base = islower(plaintext[i]) ? 'a' : 'A';
-            char plainChar = tolower(plaintext[i]) - 'a'; // convert to 0–25
-            char keyChar = tolower(key[j % keyLen]) - 'a'; // convert to 0–25
+            char plainChar = tolower(plaintext[i]) - 'a'; 
+            char keyChar = tolower(key[j % keyLen]) - 'a'; 
 
             int cipherVal = (keyChar - plainChar + 26) % 26;
             ciphertext[i] = base + cipherVal;
@@ -27,8 +27,6 @@ int main() {
     char plaintext[1000];
     char key[100];
     char ciphertext[1000];
-
-    // Read input from file
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening file.\n");
@@ -42,8 +40,6 @@ int main() {
     plaintext[strcspn(plaintext, "\n")] = 0;
 
     fclose(input);
-
-    // Encrypt
     encryptBeaufort(plaintext, key, ciphertext);
     printf("%s\n", ciphertext);
     return 0;

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// Function to decrypt the message using Caesar Cipher
 void decryptCaesar(char *message, int shift) {
     for (int i = 0; message[i] != '\0'; i++) {
         char ch = message[i];
@@ -27,7 +26,7 @@ int main() {
     }
     
     fscanf(file, "%d", &shift);
-    fgetc(file); // Consume newline
+    fgetc(file); 
     fgets(message, sizeof(message), file);
     fclose(file);
     

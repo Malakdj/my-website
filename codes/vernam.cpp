@@ -23,7 +23,6 @@ int main() {
     char key[1000];
     char ciphertext[1000];
 
-    // Read input from file
     FILE *input = fopen("input.txt", "r");
     if (!input) return 1;
 
@@ -33,13 +32,11 @@ int main() {
     plaintext[strcspn(plaintext, "\n")] = '\0';
     fclose(input);
 
-    // Check lengths match
     if (strlen(plaintext) != strlen(key)) {
         printf("Error: Plaintext and key must be same length\n");
         return 1;
     }
 
-    // Convert both to uppercase
     for (int i = 0; plaintext[i]; i++) {
         plaintext[i] = toupper(plaintext[i]);
     }

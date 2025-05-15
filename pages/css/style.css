@@ -59,27 +59,21 @@ body {
     display: block;
 }
 
-/* Centered content and a little down */
 .centered-content {
     display: flex;
     font-family: 'Poppins', sans-serif;
-    /* Change the font */
     font-size: 18px;
-    /* Make text larger */
     line-height: 1.6;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
     height: 70vh;
-    /* Center vertically */
     margin-top: 50px;
-    /* Add margin to push content a little down */
 }
 
 .definition-image {
     width: 60%;
-    /* Adjust size */
     max-width: 500px;
     border-radius: 10px;
     margin-top: 20px;
@@ -87,7 +81,6 @@ body {
 }
 
 #howToWork {
-    /* background-color: #292929; */
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -101,20 +94,17 @@ body {
     overflow-wrap: break-word;
     height: auto;
     text-align: left !important;
-    /* Force left alignment */
 }
 
 h3,
 h4 {
     text-align: center !important;
-    /* Force center alignment for titles */
     margin-bottom: 15px;
 }
 
 #howToWork p,
 #howToWork ul {
     text-align: left !important;
-    /* Force left alignment */
     line-height: 1.8;
     margin-bottom: 15px;
     padding-left: 0.5px;
@@ -157,9 +147,6 @@ td {
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
-
-
-
 textarea,
 input {
     width: 100%;
@@ -189,7 +176,6 @@ button:hover {
 
 #outputTitle {
     margin-top: 15px;
-    /* Adds spacing between the button and Output title */
 }
 
 
@@ -208,7 +194,6 @@ pre {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    /* Added space between the logo container and the slides */
 }
 
 .logo {
@@ -226,11 +211,9 @@ h2 {
 @media (min-width: 769px) {
     .mobile-menu-btn {
         display: none;
-        /* Hide the hamburger icon on desktop */
     }
 }
 
-/* Mobile styles */
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -266,16 +249,6 @@ h2 {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         transition: background-color 0.3s ease;
     }
-
-
-
-    /* .sidebar.active~.mobile-menu-btn {
-                top: 70px;
-            } */
-
-
-
-
 
     .sidebar-overlay {
         display: none;

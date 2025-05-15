@@ -6,7 +6,6 @@ body {
     padding: 20px;
 }
 
-/* Navbar styles */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -29,25 +28,20 @@ body {
     padding: 10px;
     margin-left: 20px;
     margin-right: 10px;
-    /* Space on the right */
     background-color: #333;
     color: pink;
     border: 1px solid #555;
     border-radius: 5px;
     width: 250px;
-    /* Increased size */
 }
 
 .search-bar input:focus {
     border: 2px solid pink;
-    /* Change border to red on focus */
     outline: none;
-    /* Remove the default outline */
 }
 
 .search-bar button {
     padding: 10px 20px;
-    /* background-color: #007acc; */
     background-color: pink;
     color: black;
     border: none;
@@ -56,7 +50,6 @@ body {
 }
 
 .search-bar button:hover {
-    /* background-color: #005f99; */
     background-color: pink;
 }
 
@@ -74,7 +67,6 @@ select {
 
 button {
     padding: 10px 20px;
-    /* background-color: #007acc; */
     background-color: pink;
     color: white;
     border: none;
@@ -83,7 +75,6 @@ button {
 }
 
 button:hover {
-    /* background-color: #005f99; */
     background-color: pink;
 }
 
@@ -99,8 +90,6 @@ pre {
     body {
         padding: 10px;
     }
-
-    /* Shrink the search bar input just on phone */
     .search-bar input {
         width: 160px;
         padding: 6px;
@@ -111,20 +100,13 @@ pre {
         padding: 6px 12px;
         font-size: 14px;
     }
-
-    /* Show search input and button side by side */
     .search-bar {
         flex-direction: row;
-        /* Changed from column to row */
         align-items: center;
-        /* Align input and button nicely */
         gap: 5px;
-        /* Optional spacing between them */
         width: 100%;
         margin-left: 10px;
     }
-
-    /* Make select dropdown prettier and fit on small screens */
     select {
         width: 90%;
         padding: 10px;
@@ -135,8 +117,6 @@ pre {
         border: 1px solid #555;
         margin: 10px auto;
     }
-
-    /* Optional: make main title smaller */
     h1 {
         font-size: 20px;
     }

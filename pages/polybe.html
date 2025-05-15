@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <h2>Polybe</h2>
@@ -27,17 +26,14 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
 
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -48,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Polybe Cipher Works</h3>
@@ -81,7 +76,6 @@
                 </div>
             </div>
 
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Polybe Cipher Encryption</h3>
                 <input type="hidden" id="algorithmName" value="Polybe">
@@ -101,7 +95,7 @@ void encryptPolybe(const char *plaintext, char *ciphertext) {
     int i, j, k = 0;
     for (i = 0; plaintext[i] != '\0'; i++) {
         char c = toupper(plaintext[i]);
-        if (c == 'J') c = 'I'; // Merge I and J
+        if (c == 'J') c = 'I'; 
         if (isalpha(c)) {
             for (int row = 0; row < 5; row++) {
                 for (int col = 0; col < 5; col++) {
@@ -137,8 +131,6 @@ int main() {
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Polybe Cipher Decryption</h3>
                 <textarea readonly rows="10">
@@ -296,8 +288,6 @@ int main() {
                 overlay.classList.add('active');
             }
         }
-
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -311,8 +301,6 @@ int main() {
                 overlay.classList.remove('active');
             }
         });
-
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

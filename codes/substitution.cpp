@@ -29,7 +29,7 @@ int main() {
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Read key (26 uppercase letters)
+    fgets(key, sizeof(key), input); 
     fgets(plaintext, sizeof(plaintext), input);
     key[strcspn(key, "\n")] = 0;
     plaintext[strcspn(plaintext, "\n")] = 0;

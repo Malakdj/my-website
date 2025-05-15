@@ -14,9 +14,7 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Logo container with house icon and title -->
         <div class="logo-container">
             <h2>Beaufort</h2>
             <a href="index.html">
@@ -30,18 +28,14 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button (add near top of body) -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 
-
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -60,12 +54,10 @@
                         letters. The key is repeated to match the length of the plaintext or ciphertext.
                     </p>
 
-                    <!-- Add an image -->
-                    <!-- <img src="imag/Beaufort1.png" alt="Beaufort Cipher Example" class="definition-image"> -->
+                    
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Beaufort Cipher Works</h3>
@@ -158,11 +150,9 @@
                 </div>
             </div>
 
-
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Beaufort Cipher Encryption</h3>
-                <input type="hidden" id="algorithmName" value="Beaufort"> <!-- Adjust this for each algorithm -->
+                <input type="hidden" id="algorithmName" value="Beaufort"> 
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
@@ -176,15 +166,15 @@ void encryptBeaufort(char *plaintext, char *key, char *ciphertext) {
                         
     for (i = 0; i < textLen; i++) {
         if (isalpha(plaintext[i])) {
-            char base = isupper(plaintext[i]) ? 'A' : 'a';  // Check for case of plaintext letter
-            char keyChar = toupper(key[j % keyLen]) - 'A';  // Key character, uppercase for uniformity
-            ciphertext[i] = ((keyChar - (plaintext[i] - base) + 26) % 26) + base;  // Beaufort encryption formula
+            char base = isupper(plaintext[i]) ? 'A' : 'a';  
+            char keyChar = toupper(key[j % keyLen]) - 'A';  
+            ciphertext[i] = ((keyChar - (plaintext[i] - base) + 26) % 26) + base;  
             j++;
         } else {
-            ciphertext[i] = plaintext[i];  // Non-alphabet characters remain unchanged
+            ciphertext[i] = plaintext[i];  
         }
     }
-    ciphertext[i] = '\0';  // Null-terminate the ciphertext string
+    ciphertext[i] = '\0';  
 }
                         
 int main() {
@@ -192,19 +182,16 @@ int main() {
     char key[100];
     char ciphertext[1000];
                         
-    // Get input from user
     printf("Enter the plaintext: ");
     fgets(plaintext, sizeof(plaintext), stdin);
-    plaintext[strcspn(plaintext, "\n")] = 0;  // Remove newline character
+    plaintext[strcspn(plaintext, "\n")] = 0;  
                         
     printf("Enter the key: ");
     fgets(key, sizeof(key), stdin);
-    key[strcspn(key, "\n")] = 0;  // Remove newline character
+    key[strcspn(key, "\n")] = 0;  
                         
-    // Encrypt the plaintext using the Beaufort Cipher
     encryptBeaufort(plaintext, key, ciphertext);
-                        
-    // Print the encrypted message
+
     printf("Encrypted Text: %s\n", ciphertext);
     return 0;
 }
@@ -217,19 +204,16 @@ int main() {
                 <label for="message">Enter Message:</label>
                 <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
                 <button onclick="runCipher()">Run</button>
-                <!-- Output title under the button -->
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Beaufort Cipher Decryption</h3>
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-                        
-// Function to decrypt text using Beaufort Cipher
+
 void decryptBeaufort(char *ciphertext, char *key, char *plaintext) {
     int i, j = 0;
     int textLen = strlen(ciphertext);
@@ -237,42 +221,38 @@ void decryptBeaufort(char *ciphertext, char *key, char *plaintext) {
                         
     for (i = 0; i < textLen; i++) {
         if (isalpha(ciphertext[i])) {
-            char base = isupper(ciphertext[i]) ? 'A' : 'a';  // Check for case of ciphertext letter
-            char keyChar = toupper(key[j % keyLen]) - 'A';  // Key character, uppercase for uniformity
-            plaintext[i] = ((keyChar - (ciphertext[i] - base) + 26) % 26) + base;  // Beaufort decryption formula
+            char base = isupper(ciphertext[i]) ? 'A' : 'a';  
+            char keyChar = toupper(key[j % keyLen]) - 'A';  
+            plaintext[i] = ((keyChar - (ciphertext[i] - base) + 26) % 26) + base;  
             j++;
         } else {
-            plaintext[i] = ciphertext[i];  // Non-alphabet characters remain unchanged
+            plaintext[i] = ciphertext[i];  
         }
     }
-    plaintext[i] = '\0';  // Null-terminate the plaintext string
+    plaintext[i] = '\0';  
 }
                         
 int main() {
     char ciphertext[1000];
     char key[100];
     char plaintext[1000];
-                        
-    // Get input from user
+
     printf("Enter the ciphertext: ");
     fgets(ciphertext, sizeof(ciphertext), stdin);
-    ciphertext[strcspn(ciphertext, "\n")] = 0;  // Remove newline character
+    ciphertext[strcspn(ciphertext, "\n")] = 0;  
                         
     printf("Enter the key: ");
     fgets(key, sizeof(key), stdin);
-    key[strcspn(key, "\n")] = 0;  // Remove newline character
-                        
-    // Decrypt the ciphertext using the Beaufort Cipher
+    key[strcspn(key, "\n")] = 0;  
+
     decryptBeaufort(ciphertext, key, plaintext);
-                        
-    // Print the decrypted message
+
     printf("Decrypted Text: %s\n", plaintext);
     return 0;
 }
                             
                 </textarea>
                 <br>
-                <!-- In the decryption section, change the input IDs to be unique -->
                 <label for="keyDecryption">Enter Key:</label>
                 <input type="text" id="keyDecryption" placeholder="Enter key...">
                 <label for="messageDecryption">Enter Message:</label>
@@ -304,11 +284,9 @@ int main() {
         }
 
         function updateSidebarButtons(activeSlide) {
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.sidebar button');
             buttons.forEach(button => button.classList.remove('active'));
 
-            // Add active class to the clicked button
             const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
@@ -320,22 +298,19 @@ int main() {
             const lastPage = localStorage.getItem('lastPage');
 
             if (lastPage !== currentPage) {
-                // User came from a different page → reset to first slide
                 sessionStorage.removeItem('selectedSlide');
                 localStorage.setItem('lastPage', currentPage);
             }
 
             const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
-            showSlide(savedSlide, true); // Pass true to indicate this is from page load
+            showSlide(savedSlide, true); 
         };
 
         window.addEventListener('beforeunload', function () {
             const navigationType = performance.getEntriesByType("navigation")[0].type;
             if (navigationType === "navigate" || navigationType === "reload") {
-                // Keep the slide state for refreshes
                 return;
             }
-            // Clear for other types of navigation
             sessionStorage.removeItem('selectedSlide');
         });
 
@@ -435,7 +410,6 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -450,7 +424,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

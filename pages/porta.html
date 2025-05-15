@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <h2>Porta</h2>
@@ -27,25 +26,20 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
 
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
                     <p>The Porta cipher is a polyalphabetic substitution cipher invented by Giovanni Battista della Porta in the 16th century. It uses digraph substitution based on paired alphabets and a keyword, making it stronger than monoalphabetic ciphers.</p>
                 </div>
             </div>
-
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Porta Cipher Works</h3>
@@ -69,7 +63,6 @@
                 </div>
             </div>
 
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Porta Cipher Encryption</h3>
                 <input type="hidden" id="algorithmName" value="porta">
@@ -77,8 +70,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
-char portaTable[13][2][13] = {
+                        
+char portaTable[13][2][14] = {
     {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"},
     {"ABCDEFGHIJKLM", "OPQRSTUVWXYZN"},
     {"ABCDEFGHIJKLM", "PQRSTUVWXYZNM"},
@@ -93,26 +86,54 @@ char portaTable[13][2][13] = {
     {"ABCDEFGHIJKLM", "YZNMLKJIHGFED"},
     {"ABCDEFGHIJKLM", "ZNMLKJIHGFEDC"}
 };
-
+                        
 int getIndex(char c) {
     return (toupper(c) - 'A') / 2;
 }
-
-void encryptPorta(const char *plaintext, const char *key, char *ciphertext) {
-    int i;
-    for (i = 0; plaintext[i]; i++) {
-        if (isalpha(plaintext[i])) {
-            int index = getIndex(key[i % strlen(key)]);
-            char c = toupper(plaintext[i]);
-            int pos = strchr(portaTable[index][0], c) - portaTable[index][0];
-            ciphertext[i] = portaTable[index][1][pos];
+                        
+void encryptPorta(const char* plaintext, const char* key, char* ciphertext) {
+    int j = 0;
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        char c = toupper(plaintext[i]);
+        if (isalpha(c)) {
+            int index = getIndex(key[j % strlen(key)]);
+            const char* rowA = portaTable[index][0];
+            const char* rowB = portaTable[index][1];
+            const char* pos = strchr(rowA, c);
+            if (pos) {
+                int idx = pos - rowA;
+                ciphertext[j++] = rowB[idx];
+            } else {
+                ciphertext[j++] = c;
+            }
+        } else if (isspace(c)) {
+            ciphertext[j++] = ' ';
         } else {
-            ciphertext[i] = plaintext[i];
+            ciphertext[j++] = c;
         }
     }
-    ciphertext[i] = '\0';
+    ciphertext[j] = '\0';
 }
-                </textarea>
+                        
+int main() {
+    char key[100];
+    char plaintext[1000];
+    char ciphertext[1000];
+                        
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = 0;
+                        
+    printf("Enter plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    plaintext[strcspn(plaintext, "\n")] = 0;
+                        
+    encryptPorta(plaintext, key, ciphertext);
+    printf("Encrypted text: %s\n", ciphertext);
+                        
+    return 0;
+}
+                                        </textarea>
                 <br>
                 <label for="key">Enter Key:</label>
                 <input type="text" id="key" placeholder="Enter key..."><br><br>
@@ -123,15 +144,14 @@ void encryptPorta(const char *plaintext, const char *key, char *ciphertext) {
                 <pre id="output"></pre>
             </div>
 
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Porta Cipher Decryption</h3>
                 <textarea readonly rows="15">
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
-char portaTable[13][2][13] = {
+                        
+char portaTable[13][2][14] = {
     {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"},
     {"ABCDEFGHIJKLM", "OPQRSTUVWXYZN"},
     {"ABCDEFGHIJKLM", "PQRSTUVWXYZNM"},
@@ -146,26 +166,54 @@ char portaTable[13][2][13] = {
     {"ABCDEFGHIJKLM", "YZNMLKJIHGFED"},
     {"ABCDEFGHIJKLM", "ZNMLKJIHGFEDC"}
 };
-
+                        
 int getIndex(char c) {
     return (toupper(c) - 'A') / 2;
 }
-
-void decryptPorta(const char *ciphertext, const char *key, char *plaintext) {
-    int i;
-    for (i = 0; ciphertext[i]; i++) {
-        if (isalpha(ciphertext[i])) {
-            int index = getIndex(key[i % strlen(key)]);
-            char c = toupper(ciphertext[i]);
-            int pos = strchr(portaTable[index][1], c) - portaTable[index][1];
-            plaintext[i] = portaTable[index][0][pos];
+                        
+void decryptPorta(const char* ciphertext, const char* key, char* plaintext) {
+    int j = 0;
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        char c = toupper(ciphertext[i]);
+        if (isalpha(c)) {
+            int index = getIndex(key[j % strlen(key)]);
+            const char* rowB = portaTable[index][1];
+            const char* rowA = portaTable[index][0];
+            const char* pos = strchr(rowB, c);
+            if (pos) {
+                int idx = pos - rowB;
+                plaintext[j++] = rowA[idx];
+            } else {
+                plaintext[j++] = c;
+            }
+        } else if (isspace(c)) {
+            plaintext[j++] = ' ';
         } else {
-            plaintext[i] = ciphertext[i];
+            plaintext[j++] = c;
         }
     }
-    plaintext[i] = '\0';
+    plaintext[j] = '\0';
 }
-                </textarea>
+                        
+int main() {
+    char key[100];
+    char ciphertext[1000];
+    char plaintext[1000];
+                        
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = 0;
+                        
+    printf("Enter ciphertext: ");
+    fgets(ciphertext, sizeof(ciphertext), stdin);
+    ciphertext[strcspn(ciphertext, "\n")] = 0;
+                        
+    decryptPorta(ciphertext, key, plaintext);
+    printf("Decrypted text: %s\n", plaintext);
+                        
+    return 0;
+}
+                                        </textarea>
                 <br>
                 <label for="keyDecryption">Enter Key:</label>
                 <input type="text" id="keyDecryption" placeholder="Enter key..."><br><br>
@@ -290,8 +338,6 @@ void decryptPorta(const char *ciphertext, const char *key, char *plaintext) {
                 overlay.classList.add('active');
             }
         }
-
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -305,8 +351,6 @@ void decryptPorta(const char *ciphertext, const char *key, char *plaintext) {
                 overlay.classList.remove('active');
             }
         });
-
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

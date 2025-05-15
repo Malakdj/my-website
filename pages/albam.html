@@ -224,7 +224,7 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
+        
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -239,7 +239,7 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
+        
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

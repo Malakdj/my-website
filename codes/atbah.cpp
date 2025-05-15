@@ -18,7 +18,7 @@ void encryptAtbah(char *plaintext, char *ciphertext) {
 }
 
 int main() {
-    char key[100]; // Not used
+    char key[100]; 
     char plaintext[1000];
     char ciphertext[1000];
 
@@ -28,7 +28,7 @@ int main() {
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Skip key
+    fgets(key, sizeof(key), input); 
     fgets(plaintext, sizeof(plaintext), input);
     key[strcspn(key, "\n")] = 0;
     plaintext[strcspn(plaintext, "\n")] = 0;

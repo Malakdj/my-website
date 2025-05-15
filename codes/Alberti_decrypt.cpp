@@ -43,7 +43,6 @@ int main() {
     char key;
     int rotate_interval;
 
-    // Read from input.txt
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening input file\n");

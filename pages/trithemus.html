@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <h2>Trithemus</h2>
@@ -27,17 +26,14 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
 
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -45,7 +41,6 @@
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Trithemus Cipher Works</h3>
@@ -71,7 +66,6 @@
                 </div>
             </div>
 
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>Trithemus Cipher Encryption</h3>
                 <input type="hidden" id="algorithmName" value="trithemus">
@@ -115,7 +109,6 @@ int main() {
                 <pre id="output"></pre>
             </div>
 
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>Trithemus Cipher Decryption</h3>
                 <textarea readonly rows="10">
@@ -269,8 +262,6 @@ int main() {
                 overlay.classList.add('active');
             }
         }
-
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -285,7 +276,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

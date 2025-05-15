@@ -32,7 +32,7 @@ void decryptPolybe(char *ciphertext, char *plaintext) {
 
 int main() {
     char ciphertext[2000];
-    char key[100]; // not used for Polybe
+    char key[100]; 
     char plaintext[1000];
 
     FILE *input = fopen("input.txt", "r");
@@ -41,7 +41,7 @@ int main() {
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Skip the key line
+    fgets(key, sizeof(key), input); 
     fgets(ciphertext, sizeof(ciphertext), input);
     ciphertext[strcspn(ciphertext, "\n")] = 0;
 

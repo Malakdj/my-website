@@ -5,21 +5,19 @@ const path = require("path");
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "pages"))); // Serve HTML pages from 'pages' folder
+app.use(express.static(path.join(__dirname, "pages"))); 
 
-const codesDir = path.join(__dirname, "codes"); // Path to C++ files
+const codesDir = path.join(__dirname, "codes"); 
 
-// Helper function to handle execution
 const executeCipher = (algorithm, isDecryption, key, message, rotateInterval, res) => {
     const suffix = isDecryption ? "_decrypt" : "";
-    const normalizedName = algorithm.replace(/è/g, 'e'); // Remove accents
+    const normalizedName = algorithm.replace(/è/g, 'e'); 
     const cppFile = path.join(codesDir, `${normalizedName}${suffix}.cpp`);
     
     if (!fs.existsSync(cppFile)) {
         return res.status(400).send(`Error: ${algorithm}${suffix}.cpp not found.`);
     }
 
-    // Prepare input data
     let inputData = key;
     if (algorithm === "Alberti") {
         inputData += `\n${rotateInterval}`;
@@ -40,8 +38,7 @@ const executeCipher = (algorithm, isDecryption, key, message, rotateInterval, re
     });
 };
 
-// Use process.env.PORT to allow dynamic port assignment on Render
-const port = process.env.PORT || 3000;  // Use Render's port or fallback to 3000 locally
+const port = process.env.PORT || 3000;  
 
 app.post("/run", (req, res) => {
     const { algorithm, key, message, rotateInterval } = req.body;
@@ -57,7 +54,6 @@ app.post("/runDecryption", (req, res) => {
     executeCipher(algorithm, true, key, message, rotateInterval, res);
 });
 
-// Updated listen statement
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

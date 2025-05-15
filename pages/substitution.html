@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <h2>Substitution</h2>
@@ -27,17 +26,12 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
-
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -46,8 +40,6 @@
                         plaintext and ciphertext characters.</p>
                 </div>
             </div>
-
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the Substitution Cipher Works</h3>
@@ -70,10 +62,8 @@
                     <p><b>Plaintext:</b> HELLO → <b>Ciphertext:</b> ITSSG</p>
                 </div>
             </div>
-
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
-                <h3>Substitution Cipher Encryption (C)</h3>
+                <h3>Substitution Cipher Encryption</h3>
                 <textarea readonly rows="15">
 #include <stdio.h>
 #include <string.h>
@@ -92,7 +82,7 @@ void encryptSubstitution(const char *plaintext, char *ciphertext, const char *ke
 }
 
 int main() {
-    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; // Example key
+    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; 
     char plaintext[1000], ciphertext[1000];
 
     printf("Enter the plaintext: ");
@@ -112,10 +102,8 @@ int main() {
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
-                <h3>Substitution Cipher Decryption (C)</h3>
+                <h3>Substitution Cipher Decryption</h3>
                 <textarea readonly rows="15">
 #include <stdio.h>
 #include <string.h>
@@ -124,7 +112,7 @@ int main() {
 void decryptSubstitution(const char *ciphertext, char *plaintext, const char *key) {
     char reverseKey[26];
     for (int i = 0; i < 26; i++) {
-        reverseKey[key[i] - 'A'] = 'A' + i;
+        reverseKey[toupper(key[i]) - 'A'] = 'A' + i;
     }
 
     for (int i = 0; ciphertext[i] != '\0'; i++) {
@@ -139,7 +127,7 @@ void decryptSubstitution(const char *ciphertext, char *plaintext, const char *ke
 }
 
 int main() {
-    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; // Example key
+    char key[27] = "QWERTYUIOPLKJHGFDSAZXCVBNM"; 
     char ciphertext[1000], plaintext[1000];
 
     printf("Enter the ciphertext: ");
@@ -273,7 +261,6 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -287,8 +274,6 @@ int main() {
                 overlay.classList.remove('active');
             }
         });
-
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {

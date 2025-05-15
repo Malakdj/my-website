@@ -8,45 +8,36 @@ void encryptAutoKey(char *plaintext, char *key, char *ciphertext) {
     int keyLen = strlen(key);
     char fullKey[1000];
 
-    // Start with the initial key and append plaintext to it for dynamic key expansion
     strcpy(fullKey, key);
-    strncat(fullKey, plaintext, textLen);  // Append the entire plaintext to key (correctly handle key length)
+    strncat(fullKey, plaintext, textLen);  
 
     for (i = 0; i < textLen; i++) {
         if (isalpha(plaintext[i])) {
             char base = isupper(plaintext[i]) ? 'A' : 'a';
-            char keyChar = tolower(fullKey[i]) - 'a';  // Use the evolving key for each character
+            char keyChar = tolower(fullKey[i]) - 'a';  
             ciphertext[i] = ((tolower(plaintext[i]) - 'a' + keyChar) % 26) + base;
         } else {
-            ciphertext[i] = plaintext[i];  // Non-alphabet characters remain unchanged
+            ciphertext[i] = plaintext[i];  
         }
     }
-    ciphertext[i] = '\0';  // Null-terminate the ciphertext
+    ciphertext[i] = '\0';  
 }
 
 int main() {
     char plaintext[1000];
     char key[100];
     char ciphertext[1000];
-
-    // Reading input from file
     FILE *input = fopen("input.txt", "r");
     if (!input) {
         printf("Error opening file.\n");
         return 1;
     }
-
-    // Read key and plaintext from file
     fgets(key, sizeof(key), input);
-    key[strcspn(key, "\n")] = 0;  // Remove newline character
+    key[strcspn(key, "\n")] = 0;  
     fgets(plaintext, sizeof(plaintext), input);
-    plaintext[strcspn(plaintext, "\n")] = 0;  // Remove newline character
+    plaintext[strcspn(plaintext, "\n")] = 0; 
     fclose(input);
-
-    // Encrypt the plaintext using AutoKey cipher
     encryptAutoKey(plaintext, key, ciphertext);
-
-    // Print the encrypted message
     printf("%s", ciphertext);
     return 0;
 }

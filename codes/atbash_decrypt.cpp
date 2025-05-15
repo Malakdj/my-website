@@ -18,7 +18,7 @@ void decryptAtbash(char *ciphertext, char *plaintext) {
 }
 
 int main() {
-    char key[100]; // Not used
+    char key[100]; 
     char ciphertext[1000];
     char plaintext[1000];
 
@@ -28,7 +28,7 @@ int main() {
         return 1;
     }
 
-    fgets(key, sizeof(key), input); // Skip key
+    fgets(key, sizeof(key), input); 
     fgets(ciphertext, sizeof(ciphertext), input);
     key[strcspn(key, "\n")] = 0;
     ciphertext[strcspn(ciphertext, "\n")] = 0;

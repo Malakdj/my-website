@@ -14,9 +14,7 @@
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Logo container with house icon and title -->
         <div class="logo-container">
             <h2>AutoKey</h2>
             <a href="index.html">
@@ -30,18 +28,14 @@
         <button onclick="showSlide('decryptage')">Decryption</button>
     </div>
 
-    <!-- Mobile Menu Button (add near top of body) -->
     <div class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 
-
-    <!-- Content Area -->
     <div class="content">
         <div class="container">
-            <!-- Definition Slide -->
             <div id="definition" class="slide active-slide">
                 <div class="centered-content">
                     <h3>Definition</h3>
@@ -50,12 +44,9 @@
                         repeating keys.
                     </p>
 
-                    <!-- Add an image -->
-                    <!-- <img src="imag/AutoKey1.png" alt="AutoKey Cipher Example" class="definition-image"> -->
                 </div>
             </div>
 
-            <!-- How to Work Slide -->
             <div id="howToWork" class="slide">
                 <div class="centered-content">
                     <h3>How the AutoKey Cipher Works</h3>
@@ -188,11 +179,9 @@
             </div>
 
 
-
-            <!-- Cryptage Slide -->
             <div id="cryptage" class="slide">
                 <h3>AutoKey Cipher Encryption</h3>
-                <input type="hidden" id="algorithmName" value="AutoKey"> <!-- Adjust this for each algorithm -->
+                <input type="hidden" id="algorithmName" value="AutoKey"> 
                 <textarea readonly rows="10">
 #include <stdio.h>
 #include <string.h>
@@ -203,7 +192,6 @@ void encryptAutoKey(char *plaintext, char *key, char *ciphertext) {
     int keyLen = strlen(key);
     char fullKey[1000];
                         
-    // Step 1: Create the full key (keyword + part of the plaintext)
     strcpy(fullKey, key);
     strncat(fullKey, plaintext, ptLen - keyLen);
                         
@@ -214,10 +202,10 @@ void encryptAutoKey(char *plaintext, char *key, char *ciphertext) {
             char k = toupper(fullKey[i]) - 'A';
             ciphertext[i] = ((p + k) % 26) + 'A';
         } else {
-            ciphertext[i] = plaintext[i]; // Keep non-alphabet characters unchanged
+            ciphertext[i] = plaintext[i]; 
         }
     }
-    ciphertext[ptLen] = '\0'; // Null-terminate the result
+    ciphertext[ptLen] = '\0'; 
 }
                         
 int main() {
@@ -244,11 +232,9 @@ int main() {
                 <label for="message">Enter Message:</label>
                 <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
                 <button onclick="runCipher()">Run</button>
-                <!-- Output title under the button -->
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
             </div>
-            <!-- Decryptage Slide -->
             <div id="decryptage" class="slide">
                 <h3>AutoKey Cipher Decryption</h3>
                 <textarea readonly rows="10">
@@ -261,7 +247,6 @@ void decryptAutoKey(char *ciphertext, char *key, char *plaintext) {
     char currentKey[1000];
     strcpy(currentKey, key);
                         
-    // Step 1: Decrypt each letter using key + recovered plaintext
     for (int i = 0; i < ctLen; i++) {
         if (isalpha(ciphertext[i])) {
             char c = toupper(ciphertext[i]) - 'A';
@@ -276,10 +261,10 @@ void decryptAutoKey(char *ciphertext, char *key, char *plaintext) {
                 currentKey[len + 1] = '\0';
             }
         } else {
-            plaintext[i] = ciphertext[i]; // Keep non-alphabet characters unchanged
+            plaintext[i] = ciphertext[i]; 
         }
     }
-    plaintext[ctLen] = '\0'; // Null-terminate the result
+    plaintext[ctLen] = '\0'; 
 }
                         
 int main() {
@@ -299,7 +284,6 @@ int main() {
                                                       
                 </textarea>
                 <br>
-                <!-- In the decryption section, change the input IDs to be unique -->
                 <label for="keyDecryption">Enter Key:</label>
                 <input type="text" id="keyDecryption" placeholder="Enter key...">
                 <label for="messageDecryption">Enter Message:</label>
@@ -331,11 +315,9 @@ int main() {
         }
 
         function updateSidebarButtons(activeSlide) {
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.sidebar button');
             buttons.forEach(button => button.classList.remove('active'));
 
-            // Add active class to the clicked button
             const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
@@ -347,22 +329,19 @@ int main() {
             const lastPage = localStorage.getItem('lastPage');
 
             if (lastPage !== currentPage) {
-                // User came from a different page → reset to first slide
                 sessionStorage.removeItem('selectedSlide');
                 localStorage.setItem('lastPage', currentPage);
             }
 
             const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
-            showSlide(savedSlide, true); // Pass true to indicate this is from page load
+            showSlide(savedSlide, true); 
         };
 
         window.addEventListener('beforeunload', function () {
             const navigationType = performance.getEntriesByType("navigation")[0].type;
             if (navigationType === "navigate" || navigationType === "reload") {
-                // Keep the slide state for refreshes
                 return;
             }
-            // Clear for other types of navigation
             sessionStorage.removeItem('selectedSlide');
         });
 
@@ -462,7 +441,6 @@ int main() {
             }
         }
 
-        // Close sidebar on body click or button click inside it (mobile only)
         document.addEventListener('click', function (event) {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -477,7 +455,6 @@ int main() {
             }
         });
 
-        // Also close sidebar when any sidebar button is clicked
         const sidebarButtons = document.querySelectorAll('.sidebar button');
         sidebarButtons.forEach(btn => {
             btn.addEventListener('click', () => {
