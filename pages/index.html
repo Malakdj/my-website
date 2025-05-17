@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encryption Algorithms</title>
     <link rel="stylesheet" href="css/ind.css">
+    <style>
+        .download-link {
+            display: inline-block;
+            /* background-color: #2c3e50; */
+            background-color: rgb(196, 182, 182);
+            /* dark box */
+            /* color: white; */
+            color: black;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            /* font-weight: bold; */
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .download-link:hover {
+            /* background-color: #34495e; */
+            background-color: pink;
+            /* lighter on hover */
+        }
+    </style>
 </head>
+
 <body>
 
     <div class="navbar">
@@ -41,31 +65,31 @@
         function goToAlgorithmPage() {
             const algorithm = document.getElementById('algorithm').value;
             if (algorithm === "alberti") {
-                window.location.href = "/alberti.html";  
+                window.location.href = "/alberti.html";
             } else if (algorithm === "caesar") {
-                window.location.href = "/caesar.html";  
-            }else if (algorithm === "vigenere") {
-                window.location.href = "/vigenere.html";  
-            }else if (algorithm === "autokey") {
-                window.location.href = "/autokey.html";  
-            }else if (algorithm === "beaufort") {
-                window.location.href = "/beaufort.html";  
-            }else if (algorithm === "polybe") {
-                window.location.href = "/polybe.html";  
-            }else if (algorithm === "substitution") {
-                window.location.href = "/substitution.html";  
-            }else if (algorithm === "atbash") {
-                window.location.href = "/atbash.html";  
-            }else if (algorithm === "albam") {
-                window.location.href = "/albam.html";  
-            }else if (algorithm === "atbah") {
-                window.location.href = "/atbah.html";  
-            }else if (algorithm === "trithemus") {
-                window.location.href = "/trithemus.html";  
-            }else if (algorithm === "porta") {
-                window.location.href = "/porta.html";  
-            }else if (algorithm === "vernam") {
-                window.location.href = "/vernam.html";  
+                window.location.href = "/caesar.html";
+            } else if (algorithm === "vigenere") {
+                window.location.href = "/vigenere.html";
+            } else if (algorithm === "autokey") {
+                window.location.href = "/autokey.html";
+            } else if (algorithm === "beaufort") {
+                window.location.href = "/beaufort.html";
+            } else if (algorithm === "polybe") {
+                window.location.href = "/polybe.html";
+            } else if (algorithm === "substitution") {
+                window.location.href = "/substitution.html";
+            } else if (algorithm === "atbash") {
+                window.location.href = "/atbash.html";
+            } else if (algorithm === "albam") {
+                window.location.href = "/albam.html";
+            } else if (algorithm === "atbah") {
+                window.location.href = "/atbah.html";
+            } else if (algorithm === "trithemus") {
+                window.location.href = "/trithemus.html";
+            } else if (algorithm === "porta") {
+                window.location.href = "/porta.html";
+            } else if (algorithm === "vernam") {
+                window.location.href = "/vernam.html";
             }
 
         }
@@ -90,20 +114,21 @@
 
             for (let key in algorithms) {
                 if (key.startsWith(searchInput)) {
-                    window.location.href = algorithms[key];  
+                    window.location.href = algorithms[key];
                     return;
                 }
             }
 
-            alert("Algorithm not found!");  
+            alert("Algorithm not found!");
         }
 
         function checkEnter(event) {
             if (event.key === "Enter") {
-                searchAlgorithm();  
+                searchAlgorithm();
             }
         }
     </script>
 
 </body>
+
 </html>
