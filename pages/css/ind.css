@@ -19,6 +19,20 @@ body {
     font-size: 24px;
 }
 
+.download-link {
+    display: inline-block;
+    background-color: rgb(196, 182, 182);
+    color: black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.download-link:hover {
+    background-color: pink;
+}
 
 .search-bar {
     display: flex;
