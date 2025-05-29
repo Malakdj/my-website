@@ -92,10 +92,10 @@ int main() {
 }
                 </textarea>
                 <br>
-                <label for="key">Enter 8-byte Key:</label>
-                <input type="text" id="key" placeholder="e.g. mySecr3t"><br><br>
+                <label for="key">Enter Key:</label>
+                <input type="text" id="key" placeholder="Enter Key (HEx)..."><br><br>
                 <label for="message">Enter Message:</label>
-                <textarea id="message" rows="4" placeholder="Enter 8 characters..."></textarea>
+                <textarea id="message" rows="4" placeholder="Enter Message (Hex)..."></textarea>
                 <button onclick="runCipher()">Run</button>
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="output"></pre>
@@ -123,10 +123,10 @@ int main() {
 }
                 </textarea>
                 <br>
-                <label for="keyDecryption">Enter 8-byte Key:</label>
-                <input type="text" id="keyDecryption" placeholder="e.g. mySecr3t"><br><br>
+                <label for="keyDecryption">Enter Key:</label>
+                <input type="text" id="keyDecryption" placeholder="Enter Key (HEx)..."><br><br>
                 <label for="messageDecryption">Enter Message:</label>
-                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter Message (Hex)..."></textarea>
                 <button onclick="runDecryption()">Run</button>
                 <h2 id="outputTitle">Output:</h2>
                 <pre id="outputDecryption"></pre>
