@@ -34,7 +34,6 @@
         <option value="trithemus">Trithemus Cipher</option>
         <option value="porta">Porta Cipher</option>
         <option value="vernam">Vernam Cipher</option>
-        <option value="des">DES Cipher</option>
     </select>
 
     <script>
@@ -66,8 +65,6 @@
                 window.location.href = "/porta.html";  
             }else if (algorithm === "vernam") {
                 window.location.href = "/vernam.html";  
-            }else if (algorithm === "des") {
-                window.location.href = "/des.html";  
             }
 
         }
@@ -88,7 +85,6 @@
                 trithemus: '/trithemus.html',
                 porta: '/porta.html',
                 vernam: '/vernam.html',
-                des: '/des.html',
             };
 
             for (let key in algorithms) {
