@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo-container">
+            <h2>DES Cipher</h2>
+            <a href="index.html">
+                <i class="fas fa-home logo"></i>
+            </a>
+        </div>
+
+        <button onclick="showSlide('definition')" class="active">Definition</button>
+        <button onclick="showSlide('howToWork')">How It Works</button>
+        <button onclick="showSlide('cryptage')">Encryption</button>
+        <button onclick="showSlide('decryptage')">Decryption</button>
+    </div>
+
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="content">
+        <div class="container">
+            <div id="definition" class="slide active-slide">
+                <div class="centered-content">
+                    <h3>Definition</h3>
+                    <p>
+                        The Data Encryption Standard (DES) is a symmetric-key block cipher developed in the 1970s.
+                        It encrypts data in 64-bit blocks using a 56-bit key. DES was once the standard for encryption
+                        but
+                        is now considered insecure due to its short key length and has been replaced by AES in modern
+                        systems.
+                    </p>
+                </div>
+            </div>
+
+            <div id="howToWork" class="slide">
+                <div class="centered-content">
+                    <h3>How DES Works</h3>
+                    <h4>Encryption Process</h4>
+                    <ol>
+                        <li>Input a 64-bit plaintext block.</li>
+                        <li>Apply an initial permutation (IP).</li>
+                        <li>Split into left and right 32-bit halves.</li>
+                        <li>Apply 16 rounds of Feistel function using different subkeys.</li>
+                        <li>Swap the final halves and apply inverse IP.</li>
+                    </ol>
+
+                    <h4>Decryption Process</h4>
+                    <ol>
+                        <li>Use the same 16 round process as encryption.</li>
+                        <li>Apply the 16 subkeys in reverse order.</li>
+                        <li>Final permutation produces the original plaintext.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="cryptage" class="slide">
+                <h3>DES Cipher Encryption</h3>
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <openssl/des.h>
+
+int main() {
+    DES_cblock key = {0x13, 0x34, 0x57, 0x79, 0x9B, 0xBC, 0xDF, 0xF1};
+    DES_key_schedule schedule;
+    DES_set_key_unchecked(&key, &schedule);
+
+    DES_cblock input = "ABCDEFGH";
+    DES_cblock output;
+
+    DES_ecb_encrypt(&input, &output, &schedule, DES_ENCRYPT);
+
+    printf("Encrypted: ");
+    for (int i = 0; i < 8; i++)
+        printf("%02X ", output[i]);
+    printf("\n");
+
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="key">Enter 8-byte Key:</label>
+                <input type="text" id="key" placeholder="e.g. mySecr3t"><br><br>
+                <label for="message">Enter Message:</label>
+                <textarea id="message" rows="4" placeholder="Enter 8 characters..."></textarea>
+                <button onclick="runCipher()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <div id="decryptage" class="slide">
+                <h3>DES Cipher Decryption</h3>
+                <textarea readonly rows="15">
+#include <stdio.h>
+#include <openssl/des.h>
+
+int main() {
+    DES_cblock key = {0x13, 0x34, 0x57, 0x79, 0x9B, 0xBC, 0xDF, 0xF1};
+    DES_key_schedule schedule;
+    DES_set_key_unchecked(&key, &schedule);
+
+    DES_cblock encrypted = {0x85, 0xE8, 0x13, 0x54, 0x0F, 0x0A, 0xB4, 0x05};
+    DES_cblock output;
+
+    DES_ecb_encrypt(&encrypted, &output, &schedule, DES_DECRYPT);
+
+    printf("Decrypted: %s\n", output);
+
+    return 0;
+}
+                </textarea>
+                <br>
+                <label for="keyDecryption">Enter 8-byte Key:</label>
+                <input type="text" id="keyDecryption" placeholder="e.g. mySecr3t"><br><br>
+                <label for="messageDecryption">Enter Message:</label>
+                <textarea id="messageDecryption" rows="4" placeholder="Enter your message..."></textarea>
+                <button onclick="runDecryption()">Run</button>
+                <h2 id="outputTitle">Output:</h2>
+                <pre id="outputDecryption"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            document.getElementById(slideId).classList.add('active-slide');
+            sessionStorage.setItem('selectedSlide', slideId);
+            updateSidebarButtons(slideId);
+        }
+
+        function updateSidebarButtons(activeSlide) {
+            const buttons = document.querySelectorAll('.sidebar button');
+            buttons.forEach(button => button.classList.remove('active'));
+            const activeButton = document.querySelector(`[onclick="showSlide('${activeSlide}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        window.onload = function () {
+            const savedSlide = sessionStorage.getItem('selectedSlide') || 'definition';
+            showSlide(savedSlide);
+        };
+
+        function runCipher() {
+            const message = document.getElementById("message").value.trim();
+            const key = document.getElementById("key").value.trim();
+
+            if (!message || !key) {
+                document.getElementById("output").textContent = "Please enter both message and key";
+                return;
+            }
+
+            fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "des",
+                    message: message,
+                    key: key
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("output").textContent = data)
+                .catch(error => document.getElementById("output").textContent = "Error: " + error.message);
+        }
+
+        function runDecryption() {
+            const message = document.getElementById("messageDecryption").value.trim();
+            const key = document.getElementById("keyDecryption").value.trim();
+
+            if (!message || !key) {
+                document.getElementById("outputDecryption").textContent = "Please enter both encrypted hex and key";
+                return;
+            }
+
+            fetch("/runDecryption", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    algorithm: "des",
+                    message: message,
+                    key: key
+                })
+            })
+                .then(response => response.text())
+                .then(data => document.getElementById("outputDecryption").textContent = data)
+                .catch(error => document.getElementById("outputDecryption").textContent = "Error: " + error.message);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+
+</body>
+
+</html>
