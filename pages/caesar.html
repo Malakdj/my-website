@@ -308,7 +308,7 @@ int main() {
                 return;
             }
 
-            fetch("http://localhost:3000/run", {
+            fetch("/run", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -342,7 +342,7 @@ int main() {
                 return;
             }
 
-            fetch("http://localhost:3000/runDecryption", {
+            fetch("/runDecryption", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
